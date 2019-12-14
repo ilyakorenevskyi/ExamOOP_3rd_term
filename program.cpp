@@ -1,6 +1,6 @@
 #include "program.h"
 
-program::program()
+Program::Program()
 {
 
 }

@@ -1,11 +1,12 @@
 #ifndef PROGRAM_H
 #define PROGRAM_H
+#include <string>
 
-
-class program
+class Program
 {
 public:
-    program();
+    std::string name;
+    Program();
 };
 
 #endif // PROGRAM_H
