@@ -8,7 +8,7 @@ class Program
 {
 public:
     std::string name;
-    std::set <Error *> errors;
+    std::vector <Error *> errors;
     Program(std::string);
     void addError(Error*);
 };
