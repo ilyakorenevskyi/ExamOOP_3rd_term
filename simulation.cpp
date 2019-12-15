@@ -19,7 +19,7 @@ bool Simulation::errorsProbab(std::vector<std::pair<Error*,std::pair<int,int>>> 
     double prob =(double)rand(0,60)/100;
     for(auto i :error_history){
           if(i.first==error){
-              prob+=0.03;
+              prob+=0.02;
           }
     }
     std::cout <<"error" <<prob<<std::endl;

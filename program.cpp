@@ -8,4 +8,6 @@ void Program::addError(Error* new_error){
    }
    errors.push_back(new_error);
 }
-
+std::string Program::getName(){
+    return name;
+}

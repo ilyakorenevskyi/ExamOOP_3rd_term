@@ -54,3 +54,6 @@ void User::clear(){
     general_t=0;
     error_t=0;
 }
+std::string User::getName(){
+    return name;
+}

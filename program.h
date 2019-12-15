@@ -11,6 +11,7 @@ public:
     std::vector <Error *> errors;
     Program(std::string);
     void addError(Error*);
+    std::string getName();
 };
 
 #endif // PROGRAM_H

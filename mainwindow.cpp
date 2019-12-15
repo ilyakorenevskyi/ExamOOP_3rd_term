@@ -14,10 +14,10 @@ MainWindow::MainWindow(QWidget *parent)
     std::vector<QTreeWidgetItem*> users;
     for(auto i :s.users){
         users.push_back(new QTreeWidgetItem());
-        users[users.size()-1]->setText(0,QString::fromStdString(i->name));
+        users[users.size()-1]->setText(0,QString::fromStdString(i->getName()));
         for(auto j:i->used_program){
             QTreeWidgetItem * temp = new QTreeWidgetItem();
-            temp->setText(0,QString::fromStdString(j.first->name));
+            temp->setText(0,QString::fromStdString(j.first->getName()));
             users[users.size()-1]->addChild(temp);
         }
     }
@@ -32,20 +32,20 @@ MainWindow::~MainWindow()
 }
 void MainWindow::ViewUserInform(int user){
     ui->Items->clear();
-    ui->Name->setText(QString::fromStdString(s.users[user]->name));
+    ui->Name->setText(QString::fromStdString(s.users[user]->getName()));
     std::map<Program*,int>::iterator it = s.users[user]->used_program.begin();
      for(int i=0;i<s.users[user]->used_program.size();i++){
-       ui->Items->addItem(QString::fromStdString(it->first->name));
+       ui->Items->addItem(QString::fromStdString(it->first->getName()));
        std::advance( it,  1);
     }
 }
 void MainWindow::ViewProgramInform(int prog,std::string user){
     ui->Items->clear();
     for(auto i :s.users){
-        if(i->name==user){
+        if(i->getName()==user){
             std::map<Program*,int>::iterator it = i->used_program.begin();
             std::advance( it,  prog);
-            ui->Name->setText(QString::fromStdString(it->first->name));
+            ui->Name->setText(QString::fromStdString(it->first->getName()));
             for(auto j:it->first->errors){
                 ui->Items->addItem(QString::fromStdString(j->error_type));
             }
@@ -58,7 +58,7 @@ void MainWindow::AddToSimulation(int user){
         if(i==s.users[user]) return;
     }
     users_to_simulate.push_back(s.users[user]);
-    ui->simulation_list->addItem(QString::fromStdString (s.users[user]->name));
+    ui->simulation_list->addItem(QString::fromStdString (s.users[user]->getName()));
     return;
 }
 void MainWindow::on_info_clicked(){
