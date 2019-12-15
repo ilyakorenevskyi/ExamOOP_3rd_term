@@ -1,12 +1,12 @@
 #ifndef ERROR_H
 #define ERROR_H
-#include <vector>
+#include <string>
 class Error
 {
 public:
-    enum  {lol,kek,cheburek} error_type ;
+    std::string error_type ;
     int av_solving_time;
-    Error();
+    Error(std::string,int);
 };
 
 #endif // ERROR_H
