@@ -95,3 +95,9 @@ void MainWindow::on_start_sim_clicked(){
     }
     ui->error_time->setNum(result.second);
 }
+
+void MainWindow::on_clear_clicked()
+{
+    ui->simulation_list->clear();
+    users_to_simulate.clear();
+}

@@ -139,6 +139,13 @@
       <item row="4" column="2" colspan="2">
        <widget class="QListWidget" name="Items"/>
       </item>
+      <item row="2" column="4">
+       <widget class="QPushButton" name="clear">
+        <property name="text">
+         <string>Clear</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
    </layout>

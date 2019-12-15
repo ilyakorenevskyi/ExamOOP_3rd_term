@@ -19,41 +19,37 @@ void User::startWork(){
     prog_t=int_dis2(gen);
     curr_prog_t = 0;
 }
-Error* User::work(bool end){
+std::vector<Error*> User::work(int time){
+    std::vector<Error*> result;
+    while(!(curr_prog_t==prog_t && time<=general_t)){
     if(error_t!=0){
         error_t--;
-        return nullptr;
+        continue;
     }
-    if(curr_prog_t==prog_t){
-        std::cout <<"Prog is done" <<std::endl;
+    if(curr_prog_t==prog_t)
         curr_prog=nullptr;
-    }
-    if(curr_prog==nullptr && end){
-        return nullptr;
-    }
-    else if(curr_prog==nullptr){
+    if(curr_prog==nullptr)
         startWork();
-        general_t++;
-        curr_prog_t++;
-    }
-    else{
-        for(auto &err :curr_prog->errors){
+     for(auto &err :curr_prog->errors){
             if(probab(error_history,curr_prog_t,err)){
                 error_history.push_back({err,{general_t,err->av_solving_time+general_t}});
                 error_t=err->av_solving_time;
                 general_t+=err->av_solving_time;
-                return err;
+                result.push_back(err);
+                break;
             }
-        }
+      }
         curr_prog_t++;
         general_t++;
     }
-    return nullptr;
+    clear();
+    return result;
 }
 void User::addProgram(Program* new_prog,int av_time){
     used_program[new_prog]=av_time;
 }
 void User::clear(){
+    curr_prog=nullptr;
     error_history.clear();
     general_t=0;
     error_t=0;

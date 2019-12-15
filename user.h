@@ -19,8 +19,9 @@ public:
     bool (*probab) (std::vector<std::pair<Error*,std::pair<int,int>>>&, int,Error* );
     User(std::string name,bool (*new_coef) (std::vector<std::pair<Error*,std::pair<int,int>>>&, int,Error*));
     void startWork();
-    Error* work(bool);
+    std::vector<Error*> work(int);
     void addProgram(Program*,int);
+    void clear();
 };
 
 #endif // USER_H

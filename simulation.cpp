@@ -9,18 +9,21 @@ bool Simulation::fixedProbab(std::vector<std::pair<Error*,std::pair<int,int>>> &
 }
 bool Simulation::genTimeProbab(std::vector<std::pair<Error*,std::pair<int,int>>>& error_history, int time,Error* error){
     double prob;
-    prob=((double)rand(0,10))/100 +time*((double)rand(0,5)/100);
+    prob=((double)rand(0,20))/100 +time*((double)rand(0,5)/100);
+     std::cout <<"time" <<prob<<std::endl;
     if(prob>0.5) return true;
     else return false;
+
 }
 bool Simulation::errorsProbab(std::vector<std::pair<Error*,std::pair<int,int>>> &error_history, int time,Error* error){
-    double prob =(double)rand(0,50)/100;
+    double prob =(double)rand(0,60)/100;
     for(auto i :error_history){
           if(i.first==error){
-              prob+=0.05;
+              prob+=0.03;
           }
     }
-    if(prob>=0.47) return true;
+    std::cout <<"error" <<prob<<std::endl;
+    if(prob>=0.47 && prob<1 ) return true;
     else return false;
 }
 int Simulation::rand(int beg,int end){
@@ -66,8 +69,13 @@ void Simulation::generatePrograms(){
     }
 }
 void Simulation::generateUsers(){
-    for(int i=0;i<3;i++){
-        users.push_back(new User("User" +std::to_string(1+users.size()),&Simulation::fixedProbab));
+    for(int i=0;i<5;i++){
+        int probabType(rand(1,3));
+        switch(probabType){
+        case(1):{users.push_back(new User("User" +std::to_string(1+users.size()),&Simulation::fixedProbab)); break;}
+        case(2):{users.push_back(new User("User" +std::to_string(1+users.size()),&Simulation::genTimeProbab)); break;}
+        case(3):{users.push_back(new User("User" +std::to_string(1+users.size()),&Simulation::errorsProbab)); break;}
+          }
         int program_count=rand(1,4);
         for(int i=0;i<program_count;i++){
             users[users.size()-1]->addProgram(programs[rand(0,programs.size()-1)],rand(2,10));
@@ -80,25 +88,13 @@ void Simulation::generateSimulation(){
     generateUsers();
 }
 std::pair<std::vector <Error*>,int> Simulation::work(int time){
-    Error* t;
-    for(int i=0;i<time;i++){
-        for(auto curr_user:users){
-            t=curr_user->work(0);
-            if(t!=nullptr){
-            appeared_errors.push_back(t);
-            error_time+=t->av_solving_time;}
-        }
+    std::vector<Error*> temp;
+    for(auto curr_user:users){
+        temp=curr_user->work(time);
+        appeared_errors.insert(appeared_errors.begin()+appeared_errors.size(),temp.begin(),temp.end());
     }
-    int check_end=0;
-    while(check_end!=users.size()){
-        check_end=0;
-        for(auto curr_user:users){
-            if(curr_user->curr_prog==nullptr) check_end++;
-            t=curr_user->work(1);
-            if(t!=nullptr){
-            appeared_errors.push_back(t);
-            error_time+=t->av_solving_time;}
-            }
+    for(auto err:appeared_errors){
+        error_time+=err->av_solving_time;
     }
     return {appeared_errors,error_time};
 }

@@ -26,6 +26,8 @@ private slots:
 
     void on_start_sim_clicked();
 
+    void on_clear_clicked();
+
 private:
     std::vector<User*> users_to_simulate;
     Simulation s;
